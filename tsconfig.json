@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "module": "esnext"
+  },
+  "include": ["tests/**/*.ts"]
+}
