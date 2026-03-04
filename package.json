@@ -1,7 +1,7 @@
 {
-  "name": "project",
-  "version": "1.0.0",
-  "description": "A whitelist-based browser extension that hides AI slop from content platforms.",
+  "name": "greenington",
+  "version": "0.1.0",
+  "description": "The Whitelist. A browser extension that hides everything except whitelisted channels. Inspired by the AI slop epidemic. YouTube first, more platforms coming.",
   "main": "index.js",
   "scripts": {
     "build": "node build.js",
