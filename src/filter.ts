@@ -10,7 +10,7 @@ export function filterVideos(items: Iterable<Element>, whitelist: Set<string>) {
     if (!link) continue;
     const href = link.getAttribute('href');
     if (href && whitelist.has(href)) {
-      item.setAttribute('data-allowed', '');
+      item.toggleAttribute('data-allowed', true);
     }
   }
 }
