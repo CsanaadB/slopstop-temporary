@@ -11,8 +11,8 @@
     "preview": "npm run build && chromium --load-extension=./extension --disable-extensions-except=./extension https://www.youtube.com"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Csanád S. Béres",
+  "license": "GPL-3.0-only",
   "type": "module",
   "devDependencies": {
     "@playwright/test": "^1.58.2",
