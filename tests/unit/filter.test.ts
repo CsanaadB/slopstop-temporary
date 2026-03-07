@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { Window } from 'happy-dom';
-import { filterVideos, parseWhitelist } from '../../src/filter';
-
-const window = new Window();
-const document = window.document;
+import {
+  filterVideos,
+  findContentsElement,
+  parseWhitelist,
+} from '../../src/filter';
 
 describe('filterVideos', () => {
   it('sets data-allowed on whitelisted item', () => {
@@ -18,6 +18,30 @@ describe('filterVideos', () => {
   it('skips items without a channel link', () => {
     const item = document.createElement('ytd-rich-item-renderer');
     expect(() => filterVideos([item], new Set())).not.toThrow();
+  });
+});
+
+describe('findContentsElement', () => {
+  it('returns the #contents element from a list of nodes', () => {
+    const contents = document.createElement('div');
+    contents.id = 'contents';
+    const nodes: Node[] = [contents];
+
+    expect(findContentsElement(nodes)).toBe(contents);
+  });
+
+  it('returns undefined when #contents is not in the list', () => {
+    const other = document.createElement('div');
+    other.id = 'something-else';
+
+    expect(findContentsElement([other])).toBeUndefined();
+  });
+
+  it('ignores non-element nodes', () => {
+    const fragment = document.createDocumentFragment();
+    (fragment as any).id = 'contents';
+
+    expect(findContentsElement([fragment])).toBeUndefined();
   });
 });
 

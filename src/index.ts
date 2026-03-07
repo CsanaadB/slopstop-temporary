@@ -1,6 +1,7 @@
-import { filterVideos, parseWhitelist } from './filter';
+import { filterVideos, findContentsElement, parseWhitelist } from './filter';
 
 (async (): Promise<void> => {
+  // @ts-expect-error chrome is provided by the browser extension runtime
   const response = await fetch(chrome.runtime.getURL('whitelist.txt'));
   const whitelist = parseWhitelist(await response.text());
 
@@ -24,9 +25,7 @@ import { filterVideos, parseWhitelist } from './filter';
   } else {
     const contentsLoadObserver = new MutationObserver((mutations) => {
       for (const mutation of mutations) {
-        const contents = Array.from(mutation.addedNodes)
-          .filter((node): node is Element => node.nodeType === Node.ELEMENT_NODE)
-          .find((element) => element.id === 'contents');
+        const contents = findContentsElement(Array.from(mutation.addedNodes));
 
         if (contents) {
           contentsLoadObserver.disconnect();

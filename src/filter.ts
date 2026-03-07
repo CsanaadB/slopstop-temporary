@@ -7,6 +7,12 @@ export function parseWhitelist(text: string): Set<string> {
   return new Set(listItems);
 }
 
+export function findContentsElement(nodes: Node[]): Element | undefined {
+  return nodes
+    .filter((node): node is Element => node.nodeType === Node.ELEMENT_NODE)
+    .find((element) => element.id === 'contents');
+}
+
 export function filterVideos(items: Iterable<Element>, whitelist: Set<string>): void {
   for (const item of items) {
     const link = item.querySelector('a[href^="/@"]');
