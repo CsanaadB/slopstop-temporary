@@ -2,11 +2,13 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    include: ['tests/unit/**/*.test.ts'],
+    include: ['tests/**/*.test.ts'],
+    exclude: ['tests/e2e/**'],
     environment: 'happy-dom',
     typecheck: {
       enabled: true,
-      include: ['tests/unit/**/*.test.ts'],
+      include: ['tests/**/*.test.ts'],
+      exclude: ['tests/e2e/**'],
     },
   },
 });
