@@ -1,8 +1,8 @@
 import {
   filterVideos,
-  findContentsElement,
   observeNewVideos,
   parseWhitelist,
+  waitForContents,
 } from './filter';
 
 (async (): Promise<void> => {
@@ -17,18 +17,8 @@ import {
   if (container) {
     observeNewVideos(container, whitelist);
   } else {
-    const contentsLoadObserver = new MutationObserver((mutations) => {
-      for (const mutation of mutations) {
-        const contents = findContentsElement(Array.from(mutation.addedNodes));
-
-        if (contents) {
-          contentsLoadObserver.disconnect();
-          filterVideos(contents.querySelectorAll('ytd-rich-item-renderer'), whitelist);
-          observeNewVideos(contents, whitelist);
-        }
-      }
-    });
-
-    contentsLoadObserver.observe(document.body, { childList: true, subtree: true });
+    const contents = await waitForContents();
+    filterVideos(contents.querySelectorAll('ytd-rich-item-renderer'), whitelist);
+    observeNewVideos(contents, whitelist);
   }
 })();

@@ -13,6 +13,23 @@ export function findContentsElement(nodes: Node[]): Element | undefined {
     .find((element) => element.id === 'contents');
 }
 
+export function waitForContents(): Promise<Element> {
+  return new Promise((resolve) => {
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        const contents = findContentsElement(Array.from(mutation.addedNodes));
+
+        if (contents) {
+          observer.disconnect();
+          resolve(contents);
+        }
+      }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+  });
+}
+
 export function observeNewVideos(container: Element, whitelist: Set<string>): void {
   const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {

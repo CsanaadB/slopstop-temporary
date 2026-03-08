@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
-import { observeNewVideos } from '../../src/filter';
+import { observeNewVideos, waitForContents } from '../../src/filter';
 
 test('observeNewVideos filters whitelisted videos added to the container', async () => {
   const video = document.createElement('ytd-rich-item-renderer');
@@ -46,4 +46,17 @@ test('observeNewVideos ignores non-video elements', async () => {
   await Promise.resolve();
 
   expect(nonVideo.hasAttribute('data-allowed')).toBe(false);
+});
+
+test('waitForContents calls back with the #contents element when it appears', async () => {
+  const contents = document.createElement('div');
+  contents.id = 'contents';
+
+  const contentsFound = waitForContents();
+
+  document.body.appendChild(contents);
+
+  const received = await contentsFound;
+
+  expect(received).toBe(contents);
 });
